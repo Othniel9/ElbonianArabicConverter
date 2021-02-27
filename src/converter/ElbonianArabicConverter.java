@@ -3,6 +3,8 @@ package converter;
 import converter.exceptions.MalformedNumberException;
 import converter.exceptions.ValueOutOfBoundsException;
 
+import java.util.Locale;
+
 
 // Carley Gilmore and Othniel Bondah - TeamI
 
@@ -33,10 +35,23 @@ public class ElbonianArabicConverter {
      */
     public ElbonianArabicConverter(String number) throws MalformedNumberException, ValueOutOfBoundsException {
 
-        // TODO check to see if the number is valid, then set it equal to the string
+        try{
+            arabicCheck(number);
+        }catch(NumberFormatException e){
+            //elbonianCheck(number);
+        }
         this.number = number;
-    }
 
+
+    }
+    private void arabicCheck(String arabicNumber) throws ValueOutOfBoundsException {
+        int num = Integer.parseInt(arabicNumber);
+        if((0 < num) && (num <= 3999)) {
+            System.out.println("Valid Arabic Number within Range");
+        } else {
+            throw new ValueOutOfBoundsException("Invalid Number" + arabicNumber + "needs to be greater than 0 and less than or equal to 3999");
+        }
+    }
     /**
      * Converts the number to an Arabic numeral or returns the current value as an int if it is already
      * in the Arabic form.
@@ -44,15 +59,115 @@ public class ElbonianArabicConverter {
      * @return An arabic value
      */
     public int toArabic() {
-        // TODO Fill in the method's body
-        return 1;
+        try {
+            return Integer.parseInt(this.number);
+        }catch (NumberFormatException n){
+
+        }
+        int AraNum = 0;
+        for(int i = 0; i< this.number.length(); i++){
+            char c = this.number.charAt(i);
+            switch (c){
+                case 'M' :
+                    AraNum += 1000;
+                    break;
+
+                case 'm':
+                    i++;
+                    AraNum += 900;
+                    break;
+
+
+                case 'D':
+                    AraNum += 500;
+                    break;
+                case 'd':
+                    i++;
+                    AraNum += 400;
+                    break;
+
+
+                case 'C':
+                    AraNum += 100;
+                break;
+
+                case 'c':
+                    i++;
+                    AraNum += 90;
+                    break;
+
+                case 'L':
+                    AraNum += 50;
+                break;
+
+                case 'l':
+                    AraNum += 40;
+                    i++;
+                    break;
+
+                case 'X':
+                    AraNum += 10;
+                break;
+
+                case 'x':
+                    i++;
+                    AraNum += 9;
+                    break;
+
+                case 'V':
+                    AraNum += 5;
+                break;
+                case 'v':
+                    AraNum += 4;
+                    i++;
+                    break;
+                case 'I':
+                    AraNum += 1;
+                break;
+
+                default:
+                    System.out.println(c + "Invalid number");
+            }
+
+        }
+        return AraNum;
     }
 
     /**
      * Converts the number to an Elbonian numeral or returns the current value if it is already in the Elbonian form.
      *
      * @return An Elbonian value
+     *
+     *
      */
+    //upper case of the same letter can not follow its lowercase
+    private void UpperAfterLower(String elbonianNumber) throws MalformedNumberException{
+//        int mCount = 0;
+//        int cCount = 0;
+//        int xCount = 0;
+//        int dCount = 0;
+//        int lCount = 0;
+//        int vCount = 0;
+//        for(Character C: elbonianNumber.toCharArray());
+//        char C =0;
+//        if(C == 'm') mCount++;
+//        if(C == 'c') mCount++;
+//        if(C == 'x') mCount++;
+//        if(C == 'd') mCount++;
+//        if(C == 'l') mCount++;
+//        if(C == 'v') mCount++;
+
+        for (int i = 0; i<elbonianNumber.length(); i++){
+            if(Character.isLowerCase(elbonianNumber.charAt(i))){
+                if (Character.isUpperCase(elbonianNumber.charAt(i+1))){
+
+                }
+
+            }
+        }
+
+
+    }
     public String toElbonian() {
         // TODO Fill in the method's body
         return "I";
